@@ -1,7 +1,9 @@
 from utils import load_model
 from flask import Flask, request, jsonify
+from flask_cors import CORS   # ✅ ADD THIS
 
 app = Flask(__name__)
+CORS(app)   # ✅ ADD THIS
 
 # LOAD MODEL ONCE AT STARTUP
 model = load_model()
