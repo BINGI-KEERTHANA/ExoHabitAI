@@ -1,5 +1,5 @@
 from utils import load_model
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
