@@ -3,22 +3,22 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
+# LOAD MODEL ONCE AT STARTUP
+model = load_model()
+
 @app.route("/")
 def home():
-    model = load_model()
     return "ExoHabitAI backend running 🚀"
 
 @app.route("/health")
 def health():
-    model = load_model()
     return jsonify({"status": "ok"})
+
 @app.route('/predict', methods=['GET','POST'])
 def predict():
     try:
         if request.method == "GET":
             return "Send POST request with JSON data"
-
-        model = load_model()
 
         data = request.get_json()
 
@@ -47,11 +47,10 @@ def predict():
         except:
             score = float(prediction)
 
-        return {
+        return jsonify({
             "score": round(score,2),
             "status": "Habitable" if prediction==1 else "Not Habitable"
-        }
+        })
 
     except Exception as e:
-        return {"error": str(e)}
-
+        return jsonify({"error": str(e)})
