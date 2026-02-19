@@ -1,8 +1,8 @@
 flask==3.0.3
 flask-cors==4.0.1
 gunicorn==22.0.0
-numpy==1.19.5
+numpy
 pandas
-scikit-learn==0.22.2.post1
+scikit-learn==1.0.2
 joblib
 
