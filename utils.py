@@ -12,3 +12,4 @@ MODEL_PATH = os.path.join(
 def load_model():
     return joblib.load(MODEL_PATH)
 
+
