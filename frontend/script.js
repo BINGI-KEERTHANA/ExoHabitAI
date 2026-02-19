@@ -11,23 +11,34 @@ document.getElementById("predictForm").addEventListener("submit", function(e) {
     resultBox.innerHTML = "";
 
     const data = {
-        radius: document.getElementById("radius").value,
-        mass: document.getElementById("mass").value,
-        temperature: document.getElementById("temp").value,
-        distance: document.getElementById("distance").value
+        radius: parseFloat(document.getElementById("radius").value),
+        mass: parseFloat(document.getElementById("mass").value),
+        temperature: parseFloat(document.getElementById("temp").value),
+        distance: parseFloat(document.getElementById("distance").value)
     };
 
-    fetch("http://127.0.0.1:5000/predict", {
+    fetch("https://exohabitai-1-9zyf.onrender.com/predict", {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: {
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify(data)
     })
     .then(res => res.json())
     .then(result => {
 
-        // Hide loading
         loading.style.display = "none";
         button.disabled = false;
+
+        if(result.error){
+            resultBox.innerHTML = `
+                <div class="error-card">
+                    <h5>❌ Error</h5>
+                    <p>${result.error}</p>
+                </div>
+            `;
+            return;
+        }
 
         resultBox.innerHTML = `
             <div class="success-card">
@@ -37,7 +48,7 @@ document.getElementById("predictForm").addEventListener("submit", function(e) {
             </div>
         `;
     })
-    .catch(() => {
+    .catch(err => {
 
         loading.style.display = "none";
         button.disabled = false;
@@ -48,5 +59,7 @@ document.getElementById("predictForm").addEventListener("submit", function(e) {
                 <p>Backend connection failed.</p>
             </div>
         `;
+
+        console.error(err);
     });
 });
