@@ -12,10 +12,12 @@ def home():
 def health():
     model = load_model()
     return jsonify({"status": "ok"})
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['GET','POST'])
 def predict():
-    model = load_model()
+    if request.method == "GET":
+        return "API working. Send POST request with JSON."
 
+    model = load_model()
     data = request.get_json()
     radius = float(data['radius'])
     mass = float(data['mass'])
